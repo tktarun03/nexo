@@ -31,6 +31,32 @@ export async function registerServiceWorker() {
   return registration;
 }
 
+/**
+ * Ask the server for a newer app version.
+ * @returns {Promise<'updating'|'current'|'offline'|'no-sw'>}
+ */
+export async function checkForUpdate() {
+  if (navigator.onLine === false) return 'offline';
+  if (!('serviceWorker' in navigator)) return 'no-sw';
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (!reg) return 'no-sw';
+  await reg.update();
+  if (reg.installing || reg.waiting) {
+    // autoUpdate activates the new worker; reload once it takes control (with a fallback).
+    let done = false;
+    const reload = () => {
+      if (done) return;
+      done = true;
+      location.reload();
+    };
+    navigator.serviceWorker.addEventListener('controllerchange', reload, { once: true });
+    reg.waiting?.postMessage({ type: 'SKIP_WAITING' });
+    setTimeout(reload, 5000);
+    return 'updating';
+  }
+  return 'current';
+}
+
 export async function swStatus() {
   if (!('serviceWorker' in navigator)) return 'unsupported';
   const reg = await navigator.serviceWorker.getRegistration();

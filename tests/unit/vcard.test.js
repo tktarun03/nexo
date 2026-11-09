@@ -4,18 +4,18 @@ import { emptyContact } from '../../src/services/VCard.js';
 
 const sample = {
   ...emptyContact(),
-  fullName: 'Maya Rao',
-  preferredName: 'Maya',
+  fullName: 'Sara Rao',
+  preferredName: 'Sara',
   jobTitle: 'Designer, Senior',
   company: 'Lumen; Studio',
   phones: [
     { label: 'Mobile', value: '+1 202 555 0143' },
     { label: 'WhatsApp', value: '+1 202 555 0144' },
   ],
-  emails: [{ label: 'Work', value: 'maya@example.com' }],
+  emails: [{ label: 'Work', value: 'sara@example.com' }],
   urls: [
-    { label: 'Website', url: 'https://maya.example.com/' },
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mayarao' },
+    { label: 'Website', url: 'https://sara.example.com/' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sararao' },
   ],
   address: { street: '12 Lake Rd', city: 'Springfield', region: '', postcode: '00000', country: 'Example' },
   birthday: '1994-04-18',
@@ -27,8 +27,8 @@ describe('encodeVCard', () => {
     const v = encodeVCard(sample);
     expect(v.startsWith('BEGIN:VCARD\r\nVERSION:3.0\r\n')).toBe(true);
     expect(v.endsWith('END:VCARD')).toBe(true);
-    expect(v).toContain('N:Rao;Maya;;;');
-    expect(v).toContain('FN:Maya Rao');
+    expect(v).toContain('N:Rao;Sara;;;');
+    expect(v).toContain('FN:Sara Rao');
     expect(v).toContain('ORG:Lumen\\; Studio');
     expect(v).toContain('TITLE:Designer\\, Senior');
     expect(v).toContain('TEL;TYPE=CELL:+1 202 555 0143');
@@ -59,12 +59,12 @@ describe('round trip', () => {
     const res = parseScanned(encodeVCard(sample));
     expect(res.kind).toBe('contact');
     const c = res.contact;
-    expect(c.fullName).toBe('Maya Rao');
-    expect(c.preferredName).toBe('Maya');
+    expect(c.fullName).toBe('Sara Rao');
+    expect(c.preferredName).toBe('Sara');
     expect(c.company).toBe('Lumen; Studio');
     expect(c.jobTitle).toBe('Designer, Senior');
     expect(c.phones).toEqual([{ label: 'Mobile', value: '+1 202 555 0143' }, { label: 'WhatsApp', value: '+1 202 555 0144' }]);
-    expect(c.emails).toEqual([{ label: 'Work', value: 'maya@example.com' }]);
+    expect(c.emails).toEqual([{ label: 'Work', value: 'sara@example.com' }]);
     expect(c.urls.map((u) => u.label)).toEqual(['Website', 'LinkedIn']);
     expect(c.address.city).toBe('Springfield');
     expect(c.birthday).toBe('1994-04-18');
@@ -121,11 +121,11 @@ describe('parsing untrusted input', () => {
   });
 
   it('parses MeCard', () => {
-    const res = parseScanned('MECARD:N:Rao,Maya;TEL:+12025550143;EMAIL:maya@example.com;URL:maya.example.com;NOTE:Hi\\; there;;');
+    const res = parseScanned('MECARD:N:Rao,Sara;TEL:+12025550143;EMAIL:sara@example.com;URL:sara.example.com;NOTE:Hi\\; there;;');
     expect(res.kind).toBe('contact');
-    expect(res.contact.fullName).toBe('Maya Rao');
+    expect(res.contact.fullName).toBe('Sara Rao');
     expect(res.contact.phones[0].value).toBe('+12025550143');
-    expect(res.contact.urls[0].url).toBe('https://maya.example.com/');
+    expect(res.contact.urls[0].url).toBe('https://sara.example.com/');
     expect(res.contact.note).toBe('Hi; there');
   });
 

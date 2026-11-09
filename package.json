@@ -1,8 +1,8 @@
 {
   "name": "nexo",
   "private": true,
-  "version": "1.0.0",
-  "description": "NEXO — Your identity. Your rules. A privacy-first, offline digital contact wallet.",
+  "version": "1.1.0",
+  "description": "NEXO \u2014 Your identity. Your rules. A privacy-first, offline digital contact wallet.",
   "type": "module",
   "scripts": {
     "dev": "vite --host",

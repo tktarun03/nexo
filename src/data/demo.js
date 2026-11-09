@@ -8,8 +8,8 @@
 export function buildDemo() {
   const profile = {
     id: 'me',
-    fullName: 'Maya Rao',
-    preferredName: 'Maya',
+    fullName: 'Sara Rao',
+    preferredName: 'Sara',
     jobTitle: 'Product Designer',
     company: 'Lumen Studio',
     phones: [
@@ -18,14 +18,14 @@ export function buildDemo() {
     ],
     whatsapp: '+1 202 555 0143',
     emails: [
-      { id: 'de1', label: 'Personal', value: 'maya@example.com' },
-      { id: 'de2', label: 'Work', value: 'maya.rao@lumen.example.com' },
+      { id: 'de1', label: 'Personal', value: 'sara@example.com' },
+      { id: 'de2', label: 'Work', value: 'sara.rao@lumen.example.com' },
     ],
-    website: 'maya.example.com',
+    website: 'sara.example.com',
     socials: [
-      { id: 'ds1', network: 'linkedin', value: 'mayarao' },
-      { id: 'ds2', network: 'instagram', value: 'mayamakes' },
-      { id: 'ds3', network: 'github', value: 'mayarao' },
+      { id: 'ds1', network: 'linkedin', value: 'sararao' },
+      { id: 'ds2', network: 'instagram', value: 'saramakes' },
+      { id: 'ds3', network: 'github', value: 'sararao' },
     ],
     address: { street: '12 Lake View Road', city: 'Springfield', region: '', postcode: '00000', country: 'Example Land' },
     birthday: '1994-04-18',
@@ -33,9 +33,9 @@ export function buildDemo() {
     custom: [{ id: 'dc1', label: 'Pronouns', value: 'she/her' }],
   };
   const cards = [
-    { id: 'demo_pro', type: 'professional', title: 'Professional', displayName: 'Maya Rao', subtitle: 'Product Designer · Lumen Studio', scene: 'sky', preset: 'professional', order: 0 },
-    { id: 'demo_personal', type: 'personal', title: 'Personal', displayName: 'Maya', subtitle: 'Friends & family', scene: 'dusk', preset: 'personal', order: 1 },
-    { id: 'demo_social', type: 'social', title: 'Social', displayName: '@mayamakes', subtitle: 'Sketches, hikes and coffee', scene: 'lake', preset: 'social', order: 2 },
+    { id: 'demo_pro', type: 'professional', title: 'Professional', displayName: 'Sara Rao', subtitle: 'Product Designer · Lumen Studio', scene: 'sky', preset: 'professional', order: 0 },
+    { id: 'demo_personal', type: 'personal', title: 'Personal', displayName: 'Sara', subtitle: 'Friends & family', scene: 'dusk', preset: 'personal', order: 1 },
+    { id: 'demo_social', type: 'social', title: 'Social', displayName: '@saramakes', subtitle: 'Sketches, hikes and coffee', scene: 'lake', preset: 'social', order: 2 },
   ];
   return { profile, cards, photos: [] };
 }

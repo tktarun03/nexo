@@ -7,6 +7,16 @@ export const VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ 
 /** Newest first. Each note is one short user-facing line. */
 export const RELEASES = [
   {
+    version: '1.1.0',
+    date: '2026-11-09',
+    notes: [
+      'New bottom tab bar: Cards, Scan, Show QR, Profile and Settings.',
+      'Refresh button: gets the latest NEXO version, or reloads your cards.',
+      'Edit card and Details to share now sit right under your card.',
+      'Demo person renamed to Sara.',
+    ],
+  },
+  {
     version: '1.0.0',
     date: '2026-11-09',
     notes: [

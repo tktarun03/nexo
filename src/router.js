@@ -141,6 +141,7 @@ async function render(path, { direction, keepScroll } = {}) {
   current = { path, screen, el };
   trail[idx] = path;
   trail.length = idx + 1;
+  ctxRef.onRoute?.(path);
 
   const saved = scrollMemory.get(path);
   const sc = el.querySelector('[data-scroll]') || el;

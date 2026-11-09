@@ -221,7 +221,7 @@ export async function render(ctx) {
   const el = h(
     'section',
     { class: 'profile-screen' },
-    TopBar({ title: t('My profile'), onBack: async () => { await persist.flush(); ctx.back(); }, actions: [saveState] }),
+    TopBar({ title: t('My profile'), actions: [saveState] }),
     h(
       'div',
       { class: 'scroll', 'data-scroll': '' },

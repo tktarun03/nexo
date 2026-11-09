@@ -9,7 +9,6 @@ import { openSheet } from '../components/BottomSheet.js';
 import { state, cardPhoto, getPhoto } from '../state.js';
 import { resolveSelection, buildSharePayload, payloadRows } from '../services/ContactService.js';
 import { getSettings, setSettings } from '../services/SettingsService.js';
-import { photoURL } from '../services/PhotoService.js';
 import { checklist } from './checklist.js';
 
 export function sharedCount(card) {
@@ -60,7 +59,7 @@ export async function render(ctx) {
     onAdd: () => ctx.go('/card/new'),
     onChange: (i) => {
       active = cards[i] || null;
-      actionsMain.forEach((b) => (b.disabled = !active));
+      setToolsEnabled(Boolean(active));
       if (active) {
         setSettings({ selectedCardId: active.id });
         setAmbient(active);
@@ -68,30 +67,18 @@ export async function render(ctx) {
     },
   });
 
-  const avatar = getPhoto(state.profile?.photoId);
-  const head = h(
-    'header',
-    { class: 'home-head' },
-    h(
-      'button',
-      { type: 'button', class: ['icon-btn', avatar && 'avatar'], 'aria-label': t('My profile'), onclick: () => ctx.go('/profile'), 'data-testid': 'open-profile' },
-      avatar ? h('img', { src: photoURL(avatar), alt: '' }) : icon('User'),
-    ),
-    Wordmark(),
-    h(
-      'div',
-      { class: 'hstack' },
-      h('button', { type: 'button', class: 'icon-btn', 'aria-label': t('Scan a QR code'), onclick: () => ctx.go('/scan'), 'data-testid': 'open-scan' }, icon('ScanLine')),
-      h('button', { type: 'button', class: 'icon-btn', 'aria-label': t('Settings'), onclick: () => ctx.go('/settings'), 'data-testid': 'open-settings' }, icon('Settings')),
-    ),
+  const refreshBtn = h(
+    'button',
+    { type: 'button', class: 'icon-btn', 'aria-label': t('Refresh — check for updates'), 'data-testid': 'refresh', onclick: () => ctx.refreshApp(refreshBtn) },
+    icon('RotateCcw', { size: 20 }),
   );
+  const head = h('header', { class: 'home-head' }, Wordmark(), refreshBtn);
 
-  const editBtn = h('button', { type: 'button', class: 'round', 'aria-label': t('Edit card'), onclick: () => active && ctx.go(`/card/${active.id}`), 'data-testid': 'edit-card' }, icon('Pencil', { size: 21 }));
-  const fieldsBtn = h('button', { type: 'button', class: 'round', 'aria-label': t('Choose what to share'), onclick: () => active && ctx.go(`/share/${active.id}`), 'data-testid': 'choose-fields' }, icon('SlidersHorizontal', { size: 21 }));
-  const qrBtn = h('button', { type: 'button', class: 'btn primary', onclick: () => active && ctx.go(`/qr/${active.id}`), 'data-testid': 'show-qr' }, icon('QrCode', { size: 20 }), t('Show QR'));
-  const actionsMain = [editBtn, fieldsBtn, qrBtn];
-  const actions = h('nav', { class: 'action-bar home-actions', 'aria-label': t('Card actions') }, editBtn, qrBtn, fieldsBtn);
-  if (!active) actionsMain.forEach((b) => (b.disabled = true));
+  const editBtn = h('button', { type: 'button', class: 'pill-btn', onclick: () => active && ctx.go(`/card/${active.id}`), 'data-testid': 'edit-card' }, icon('Pencil', { size: 16 }), t('Edit card'));
+  const fieldsBtn = h('button', { type: 'button', class: 'pill-btn', onclick: () => active && ctx.go(`/share/${active.id}`), 'data-testid': 'choose-fields' }, icon('SlidersHorizontal', { size: 16 }), t('Details to share'));
+  const tools = h('div', { class: 'card-tools', role: 'group', 'aria-label': t('Card actions') }, editBtn, fieldsBtn);
+  const setToolsEnabled = (on) => [editBtn, fieldsBtn].forEach((b) => (b.disabled = !on));
+  setToolsEnabled(Boolean(active));
 
   const demoBanner = state.mode === 'demo'
     ? h(
@@ -117,8 +104,8 @@ export async function render(ctx) {
     ? h('p', { class: 'muted center small', style: { margin: '0 24px' } }, t('Swipe to the card on the right to create your first card.'))
     : null;
 
-  const body = h('div', { class: 'home-body' }, demoBanner, gs, carousel.el, empty);
-  const el = h('section', { class: 'home', 'aria-label': t('My cards') }, ambient, head, body, actions);
+  const body = h('div', { class: 'home-body' }, demoBanner, gs, carousel.el, empty, tools);
+  const el = h('section', { class: 'home', 'aria-label': t('My cards') }, ambient, head, body);
   if (active) setAmbient(active);
 
   return {

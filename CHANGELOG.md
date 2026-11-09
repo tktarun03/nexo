@@ -2,6 +2,14 @@
 
 All notable changes to NEXO. Newest first. Keep this in step with `RELEASES` in `src/version.js` and `version` in `package.json` (a test checks).
 
+## 1.1.0 — 2026-11-09
+
+- Bottom tab bar (Cards · Scan · Show QR · Profile · Settings); hides on task screens and while typing.
+- Refresh button on Cards and "Check for updates" in Settings: installs a newer version if there is one, otherwise reloads saved data.
+- Edit card and Details to share moved under the carousel; Show QR is the raised centre tab.
+- Profile and Settings are now top-level tabs.
+- Demo person renamed from Maya to Sara.
+
 ## 1.0.0 — 2026-11-09
 
 First release.

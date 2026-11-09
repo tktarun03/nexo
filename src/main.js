@@ -12,7 +12,8 @@ import { toast } from './components/Toast.js';
 import { icon } from './components/Icon.js';
 import { onStorageError } from './services/StorageService.js';
 import { applyAppearance, getSettings, setSettings } from './services/SettingsService.js';
-import { registerServiceWorker } from './services/PwaService.js';
+import { registerServiceWorker, checkForUpdate } from './services/PwaService.js';
+import { createTabBar } from './components/TabBar.js';
 import { VERSION, RELEASES } from './version.js';
 
 defineRoute('/welcome', () => import('./screens/welcome.js'));
@@ -29,10 +30,36 @@ defineRoute('/about', () => import('./screens/about.js'));
 
 const OPEN_WITHOUT_PROFILE = ['/welcome', '/onboarding', '/about', '/scan'];
 
+let tabBar = null;
+
 const ctx = {
   state,
   go,
   back,
+  currentPath,
+  onRoute: (path) => tabBar?.update(path),
+  /** Refresh: fetch a newer app version if there is one, otherwise reload saved data. */
+  async refreshApp(button) {
+    if (button?.classList.contains('spinning')) return;
+    button?.classList.add('spinning');
+    button?.setAttribute('aria-busy', 'true');
+    try {
+      const result = await checkForUpdate();
+      if (result === 'updating') {
+        toast(t('Updating NEXO…'), { body: t('The app will reload in a moment.') });
+        return;
+      }
+      await load();
+      await refresh();
+      if (result === 'offline') toast(t('You’re offline'), { body: t('Showing what’s saved on this phone.') });
+      else toast(t('Up to date'), { kind: 'good', body: t('Version {v} · your cards were reloaded', { v: VERSION }) });
+    } catch {
+      toast(t('Couldn’t check for updates'), { kind: 'bad', body: t('Check your connection and try again.'), action: { label: t('Retry'), fn: () => ctx.refreshApp() } });
+    } finally {
+      button?.classList.remove('spinning');
+      button?.removeAttribute('aria-busy');
+    }
+  },
   closeTo: backTo,
   refreshSoon: () => setTimeout(() => refresh(), 0),
   defaultPath: () => (state.mode === 'demo' || deviceHasProfile() ? '/home' : '/welcome'),
@@ -128,6 +155,7 @@ async function boot() {
     setTimeout(() => toast(t('Storage unavailable'), { kind: 'bad', body: t('This browser blocked local storage, so NEXO opened the demo. Nothing will be saved.') }), 600);
   }
 
+  tabBar = createTabBar(ctx);
   await startRouter(document.getElementById('app'), ctx);
   hideSplash();
   updateNotice();

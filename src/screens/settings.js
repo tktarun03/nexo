@@ -151,7 +151,7 @@ export async function render(ctx) {
   const el = h(
     'section',
     { class: 'settings-screen' },
-    TopBar({ title: t('Settings'), onBack: () => ctx.back() }),
+    TopBar({ title: t('Settings') }),
     h(
       'div',
       { class: 'scroll', 'data-scroll': '' },
@@ -219,6 +219,7 @@ export async function render(ctx) {
             { class: 'group' },
             Row({ iconName: 'Shield', title: t('Your privacy'), detail: t('How NEXO handles your data'), onClick: privacySheet }),
             !isStandalone() ? Row({ iconName: 'Smartphone', title: t('Add to Home Screen'), detail: t('Use NEXO like an app, offline'), onClick: installTip }) : null,
+            Row({ iconName: 'RotateCcw', title: t('Check for updates'), detail: t('Reloads NEXO if a newer version is out'), onClick: (e) => ctx.refreshApp(e.currentTarget.querySelector('.row-icon')), testid: 'check-updates' }),
             Row({ iconName: 'History', title: t('Version history'), detail: `${t('Version')} ${VERSION}`, onClick: () => openWhatsNew(ctx), testid: 'version-history' }),
             Row({ iconName: 'Wand2', title: t('Run self-check'), detail: t('Storage, privacy filter, QR, camera'), onClick: selfCheck, testid: 'run-self-check' }),
             Row({ iconName: 'MessageSquare', title: t('Send feedback'), detail: t('Opens a GitHub form — you choose what to send'), href: feedbackUrl }),

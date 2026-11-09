@@ -26,7 +26,7 @@ test.describe('first launch and persistence', () => {
   test('demo data never reaches the device', async ({ page }) => {
     await page.goto('./');
     await page.getByTestId('start-demo').click();
-    await expect(page.locator('.id-name').first()).toHaveText('Maya Rao');
+    await expect(page.locator('.id-name').first()).toHaveText('Sara Rao');
     await page.getByTestId('exit-demo').click();
     await expect(page.getByTestId('tour-next')).toBeVisible();
     const count = await page.evaluate(() => new Promise((resolve) => {
@@ -126,7 +126,7 @@ test.describe('undo notices', () => {
 
   test('removing a phone can be undone', async ({ page }) => {
     await onboard(page);
-    await page.getByTestId('open-profile').click();
+    await page.getByTestId('tab-profile').click();
     await expect(page.getByTestId('phone-input')).toHaveValue('+974 5555 0101');
     await page.getByRole('button', { name: 'Remove phone' }).click();
     await expect(page.getByTestId('phone-input')).toHaveCount(0);
@@ -140,7 +140,7 @@ test.describe('undo notices', () => {
 
   test('profile edits save automatically', async ({ page }) => {
     await onboard(page);
-    await page.getByTestId('open-profile').click();
+    await page.getByTestId('tab-profile').click();
     await page.getByTestId('full-name').fill('Arunkumar T');
     await expect(page.getByTestId('save-state')).toHaveText(/Saved/);
     await page.reload();
@@ -178,22 +178,22 @@ test.describe('undo notices', () => {
 
 test.describe('receiving', () => {
   test('scan a contact QR from a photo, review it, then save a .vcf', async ({ page }, info) => {
-    const vcard = 'BEGIN:VCARD\r\nVERSION:3.0\r\nN:Rao;Maya;;;\r\nFN:Maya Rao\r\nORG:Lumen Studio\r\nTEL;TYPE=CELL:+1 202 555 0143\r\nEMAIL;TYPE=INTERNET:maya@example.com\r\nURL:javascript:alert(1)\r\nEND:VCARD';
+    const vcard = 'BEGIN:VCARD\r\nVERSION:3.0\r\nN:Rao;Sara;;;\r\nFN:Sara Rao\r\nORG:Lumen Studio\r\nTEL;TYPE=CELL:+1 202 555 0143\r\nEMAIL;TYPE=INTERNET:sara@example.com\r\nURL:javascript:alert(1)\r\nEND:VCARD';
     const file = info.outputPath('contact-qr.png');
     await QRCode.toFile(file, vcard, { width: 600, margin: 4 });
     await page.goto('./#/scan');
     await page.getByTestId('scan-file').setInputFiles(file);
     const result = page.getByTestId('scan-result');
-    await expect(result).toContainText('Maya Rao');
+    await expect(result).toContainText('Sara Rao');
     await expect(result).toContainText('+1 202 555 0143');
     await expect(result).not.toContainText('javascript');
     await expect(result).toContainText('Nothing has been saved yet');
     const download = page.waitForEvent('download');
     await page.getByTestId('save-contact').click();
     const dl = await download;
-    expect(dl.suggestedFilename()).toBe('Maya-Rao.vcf');
+    expect(dl.suggestedFilename()).toBe('Sara-Rao.vcf');
     const text = await (await dl.createReadStream()).toArray().then((c) => Buffer.concat(c).toString('utf8'));
-    expect(text).toContain('FN:Maya Rao');
+    expect(text).toContain('FN:Sara Rao');
     expect(text).not.toContain('javascript');
   });
 });
@@ -201,7 +201,7 @@ test.describe('receiving', () => {
 test.describe('settings', () => {
   test('backup, self-check and erase', async ({ page }) => {
     await onboard(page);
-    await page.getByTestId('open-settings').click();
+    await page.getByTestId('tab-settings').click();
     const download = page.waitForEvent('download');
     await page.getByTestId('backup').click();
     const dl = await download;
@@ -223,5 +223,39 @@ test.describe('settings', () => {
     await expect(page.getByText('Arunkumar Thamilarasu').first()).toBeVisible();
     await expect(page.getByRole('link', { name: /YouTube/ })).toHaveAttribute('href', /BeyondObviousArun/);
     await noHorizontalScroll(page);
+  });
+});
+
+test.describe('tab bar and refresh', () => {
+  test('tabs switch screens and the bar hides on task screens', async ({ page }) => {
+    await onboard(page);
+    const bar = page.locator('#tabbar');
+    await expect(bar).toBeVisible();
+    await inViewport(page, page.getByTestId('show-qr'));
+    // card tools sit fully above the tab bar
+    const tools = await page.getByTestId('edit-card').boundingBox();
+    const barBox = await bar.boundingBox();
+    expect(tools.y + tools.height).toBeLessThanOrEqual(barBox.y);
+    await page.getByTestId('tab-settings').click();
+    await expect(page.getByTestId('tab-settings')).toHaveAttribute('aria-current', 'page');
+    await page.getByTestId('tab-profile').click();
+    await expect(page.getByTestId('full-name')).toHaveValue('Arun Kumar');
+    await page.getByTestId('tab-home').click();
+    await expect(page.getByTestId('edit-card')).toBeVisible();
+    await page.getByTestId('choose-fields').click();
+    await expect(bar).toBeHidden();
+    await page.goBack();
+    await expect(bar).toBeVisible();
+    await page.getByTestId('show-qr').click();
+    await expect(page.getByTestId('qr-code')).toBeVisible();
+    await expect(bar).toBeHidden();
+    await noHorizontalScroll(page);
+  });
+
+  test('refresh reloads data and says the app is up to date', async ({ page }) => {
+    await onboard(page);
+    await page.getByTestId('refresh').click();
+    await expect(page.getByTestId('toast')).toContainText('Up to date');
+    await expect(page.locator('.id-name').first()).toHaveText('Arun Kumar');
   });
 });

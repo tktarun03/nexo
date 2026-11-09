@@ -37,7 +37,7 @@ src/services/
   SettingsService.js       localStorage settings (theme, text size, counters)
   PwaService.js            SW registration, standalone / iOS detection
   SelfCheck.js             on-device checks (Settings → Run self-check)
-src/components/            Icon, Toast, BottomSheet, IdentityCard, CardCarousel, PhotoCropper, Controls, Logo
+src/components/            TabBar (persistent, outside #app), Icon, Toast, BottomSheet, IdentityCard, CardCarousel, PhotoCropper, Controls, Logo
 src/screens/               welcome, onboarding, home, checklist, profile, card, share, review, qr, scan, settings, about
 src/styles/                tokens, global, cards, screens, animations
 tests/unit/                vitest: privacy, vcard, qr, storage/backup, structure
@@ -55,6 +55,8 @@ brand/                     original logo artwork
 | Add a profile field | `emptyProfile()`, `migrateProfile()`, `listShareItems()`, `buildSharePayload()`, `payloadRows()`, profile screen, privacy test |
 | Card look / scenes | `IdentityCard.js`, `cards.css` (`.scene-*`), `SCENES` |
 | Notices | `components/Toast.js` |
+| Bottom tabs / which screens show them | `TAB_OF` in `components/TabBar.js` |
+| Refresh / update check | `ctx.refreshApp()` in `main.js`, `checkForUpdate()` in `PwaService.js` |
 | Version + release notes | `package.json`, `src/version.js`, `CHANGELOG.md` |
 | Demo photos | drop files in `public/images/demo/`, set `staticPhoto` in `src/data/demo.js` |
 

@@ -245,3 +245,35 @@ body:has(.sheet-foot) .toast { bottom: calc(96px + var(--safe-bottom)); }
 .empty { display: grid; place-items: center; text-align: center; gap: 12px; padding: 40px 20px; color: var(--muted); }
 .empty h2 { color: var(--ink); font-size: var(--fs-lg); }
 .empty .big-icon { width: 64px; height: 64px; border-radius: 20px; background: var(--surface); display: grid; place-items: center; box-shadow: var(--shadow-sm); color: var(--ink-2); }
+
+/* ---------- bottom tab bar ---------- */
+.tabbar {
+  position: fixed; left: 50%; bottom: calc(10px + var(--safe-bottom)); z-index: 30; transform: translateX(-50%);
+  width: min(440px, calc(100% - 24px)); height: 68px; padding: 0 6px; border-radius: 34px;
+  display: none; grid-template-columns: repeat(5, 1fr); align-items: center;
+  background: var(--glass-strong); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  box-shadow: inset 0 0 0 1px var(--glass-border), 0 14px 34px -14px rgba(0, 0, 0, 0.35);
+}
+html.has-tabbar .tabbar { display: grid; }
+html.kb-open .tabbar, html.sheet-open .tabbar { display: none; }
+.tab {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px;
+  border: 0; background: none; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.01em;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: color 0.2s;
+}
+.tab.on { color: var(--ink); }
+.tab-icon { height: 24px; display: grid; place-items: center; }
+.tab:active .tab-icon, .tab:active .tab-qr-btn { transform: scale(0.9); }
+.tab-icon, .tab-qr-btn { transition: transform 0.18s var(--ease); }
+.tab-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+.tab.on .tab-avatar { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--ink); }
+.tab-qr { gap: 2px; }
+.tab-qr-btn {
+  width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; margin-top: -22px;
+  background: var(--ink); color: var(--bg); box-shadow: 0 0 0 5px var(--bg), 0 10px 22px -8px rgba(0, 0, 0, 0.5);
+}
+.tab-qr:disabled { opacity: 0.4; }
+.tab-qr .tab-label { color: var(--ink); }
+html.has-tabbar .scroll { padding-bottom: calc(120px + var(--safe-bottom)); }
+html.has-tabbar .home-body { padding-bottom: calc(92px + var(--safe-bottom)); }
+html.has-tabbar .toast { bottom: calc(92px + var(--safe-bottom)); }
