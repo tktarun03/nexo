@@ -1,0 +1,19 @@
+name: Rate NEXO
+description: A quick star rating and a line about why.
+labels: [rating]
+body:
+  - type: dropdown
+    id: stars
+    attributes:
+      label: Rating
+      options: ['★★★★★', '★★★★', '★★★', '★★', '★']
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+  - type: input
+    id: version
+    attributes:
+      label: NEXO version

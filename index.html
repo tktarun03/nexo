@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>NEXO — Your identity. Your rules.</title>
+    <meta name="description" content="A privacy-first digital contact wallet. Your details stay on your device; share only what you choose by QR." />
+    <meta name="theme-color" content="#f4f5f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0f0d" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="NEXO" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="referrer" content="no-referrer" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+    <link rel="icon" href="icons/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="icons/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <script>
+      // Apply theme and text size before first paint (no flash). Settings only, never contact data.
+      (function () {
+        try {
+          var s = JSON.parse(localStorage.getItem('nexo.settings') || '{}');
+          var root = document.documentElement;
+          if (s.theme === 'light' || s.theme === 'dark') root.dataset.theme = s.theme;
+          if (s.textSize) root.dataset.text = s.textSize;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="splash" class="splash" aria-hidden="true">
+      <img src="icons/icon-192.png" width="88" height="88" alt="" />
+      <p class="splash-stuck" hidden>
+        Taking longer than usual.
+        <button type="button" onclick="location.reload()">Reload</button>
+      </p>
+    </div>
+    <div id="app" class="app" aria-live="off"></div>
+    <div id="sheets"></div>
+    <div id="toast-root"></div>
+    <noscript><p style="padding:24px;font-family:system-ui">NEXO needs JavaScript to run. Your data never leaves this device.</p></noscript>
+    <script>
+      // The splash can never get stuck: offer a reload if the app hasn't started in 8 s.
+      setTimeout(function () {
+        var s = document.getElementById('splash');
+        if (s && !s.classList.contains('gone')) {
+          var p = s.querySelector('.splash-stuck');
+          if (p) p.hidden = false;
+        }
+      }, 8000);
+    </script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

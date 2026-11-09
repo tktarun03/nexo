@@ -1,0 +1,25 @@
+@keyframes enter-forward { from { opacity: 0; transform: translate3d(28px, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes enter-back { from { opacity: 0; transform: translate3d(-28px, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes photo-in { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+@keyframes fade-up { from { opacity: 0; transform: translate3d(0, 14px, 0); } to { opacity: 1; transform: none; } }
+@keyframes qr-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+@keyframes scan-line { 0% { transform: translateY(0); } 100% { transform: translateY(calc(var(--frame) - 4px)); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.screen.enter-forward { animation: enter-forward 0.34s var(--ease) both; }
+.screen.enter-back { animation: enter-back 0.34s var(--ease) both; }
+.fade-up { animation: fade-up 0.45s var(--ease) both; }
+.pop { animation: pop 0.32s var(--spring); }
+
+.skeleton {
+  border-radius: var(--r-sm);
+  background: linear-gradient(90deg, var(--bg-2) 25%, var(--surface-2) 50%, var(--bg-2) 75%);
+  background-size: 200% 100%; animation: shimmer 1.4s linear infinite;
+}
+.spinner { width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: spin 0.8s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}

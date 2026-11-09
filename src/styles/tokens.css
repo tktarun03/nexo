@@ -1,0 +1,130 @@
+/* Design tokens. Light is the default shell; dark follows the system or Settings. */
+:root {
+  color-scheme: light;
+  --font-display: 'Outfit Variable', 'Outfit', ui-rounded, -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', system-ui, sans-serif;
+
+  --bg: #f4f5f3;
+  --bg-2: #eceeea;
+  --surface: #ffffff;
+  --surface-2: #f7f8f6;
+  --ink: #121614;
+  --ink-2: #3d4440;
+  --muted: #6b736e;
+  --faint: #9aa29d;
+  --line: rgba(18, 22, 20, 0.08);
+  --line-strong: rgba(18, 22, 20, 0.14);
+
+  --accent: #16a34a;
+  --accent-2: #22c55e;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(34, 197, 94, 0.12);
+  --accent-text: #0f7a37;
+  --danger: #d92d20;
+  --danger-soft: rgba(217, 45, 32, 0.1);
+  --warn: #b45309;
+  --warn-soft: rgba(245, 158, 11, 0.14);
+
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-strong: rgba(255, 255, 255, 0.82);
+  --glass-dark: rgba(20, 24, 22, 0.28);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --blur: saturate(170%) blur(22px);
+
+  --notif-bg: #1a1f1c;
+  --notif-ink: #f5f7f5;
+  --notif-muted: rgba(245, 247, 245, 0.68);
+
+  --r-xs: 10px;
+  --r-sm: 14px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-card: 34px;
+  --r-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(16, 24, 20, 0.06), 0 2px 8px rgba(16, 24, 20, 0.04);
+  --shadow-md: 0 8px 28px rgba(16, 24, 20, 0.08);
+  --shadow-card: 0 30px 60px -28px rgba(16, 24, 20, 0.35), 0 10px 24px -12px rgba(16, 24, 20, 0.16);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring: cubic-bezier(0.34, 1.32, 0.5, 1);
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --gutter: 20px;
+  --tap: 44px;
+
+  --fs-scale: 1;
+  --fs-xs: calc(12px * var(--fs-scale));
+  --fs-sm: calc(13.5px * var(--fs-scale));
+  --fs-md: calc(15.5px * var(--fs-scale));
+  --fs-lg: calc(18px * var(--fs-scale));
+  --fs-xl: calc(24px * var(--fs-scale));
+  --fs-2xl: calc(32px * var(--fs-scale));
+}
+
+:root[data-text='small'] { --fs-scale: 0.92; }
+:root[data-text='large'] { --fs-scale: 1.1; }
+:root[data-text='xlarge'] { --fs-scale: 1.22; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0c0f0d;
+    --bg-2: #141815;
+    --surface: #171b18;
+    --surface-2: #1d221f;
+    --ink: #eef2ef;
+    --ink-2: #c9d0cb;
+    --muted: #8f9993;
+    --faint: #67706a;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.14);
+    --accent: #22c55e;
+    --accent-2: #4ade80;
+    --accent-ink: #04140a;
+    --accent-soft: rgba(74, 222, 128, 0.14);
+    --accent-text: #6ee79a;
+    --danger: #ff6b5f;
+    --danger-soft: rgba(255, 107, 95, 0.14);
+    --warn: #fbbf24;
+    --glass: rgba(30, 35, 32, 0.6);
+    --glass-strong: rgba(30, 35, 32, 0.84);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --notif-bg: #f1f4f2;
+    --notif-ink: #121614;
+    --notif-muted: rgba(18, 22, 20, 0.62);
+    --shadow-card: 0 30px 60px -26px rgba(0, 0, 0, 0.7), 0 10px 24px -12px rgba(0, 0, 0, 0.5);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0c0f0d;
+  --bg-2: #141815;
+  --surface: #171b18;
+  --surface-2: #1d221f;
+  --ink: #eef2ef;
+  --ink-2: #c9d0cb;
+  --muted: #8f9993;
+  --faint: #67706a;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --accent: #22c55e;
+  --accent-2: #4ade80;
+  --accent-ink: #04140a;
+  --accent-soft: rgba(74, 222, 128, 0.14);
+  --accent-text: #6ee79a;
+  --danger: #ff6b5f;
+  --danger-soft: rgba(255, 107, 95, 0.14);
+  --warn: #fbbf24;
+  --glass: rgba(30, 35, 32, 0.6);
+  --glass-strong: rgba(30, 35, 32, 0.84);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --notif-bg: #f1f4f2;
+  --notif-ink: #121614;
+  --notif-muted: rgba(18, 22, 20, 0.62);
+  --shadow-card: 0 30px 60px -26px rgba(0, 0, 0, 0.7), 0 10px 24px -12px rgba(0, 0, 0, 0.5);
+}

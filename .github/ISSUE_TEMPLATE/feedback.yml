@@ -1,0 +1,24 @@
+name: Feedback
+description: Tell us what works, what doesn't, or what you'd like. Nothing is sent until you press Submit.
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: Please don't paste personal contact details here — this page is public.
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your feedback
+      description: What happened, or what would make NEXO better?
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Phone and browser
+      placeholder: e.g. iPhone 15, Safari, added to Home Screen
+  - type: input
+    id: version
+    attributes:
+      label: NEXO version
+      description: Settings → Version history
